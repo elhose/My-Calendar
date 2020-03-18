@@ -39,6 +39,10 @@ public class Job {
     private Timestamp lastModifiedDate;
 
     @ManyToOne
+<<<<<<< HEAD
     @JoinColumn(name = "user_id", nullable = false) //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna w tej encji
+=======
+    @JoinColumn(name = "user_id", nullable = false) //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna
+
     private User user;
 }
