@@ -5,8 +5,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,29 +16,28 @@ import java.sql.Timestamp;
 @EqualsAndHashCode
 @Builder
 @Entity
-@Table(name = "jobs")
-public class Job {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "test_string")
-    private String testString;
+    private String username;
 
-    @Column(name = "hourly_state")
-    private BigDecimal hourlyState;
+    private String password;
+
+    private Boolean enabled;
 
     @CreationTimestamp
-    @Column(name = "created_date", updatable = false)
+    @Column(name = "createdDate", updatable = false)
     private Timestamp createdDate;
 
     @UpdateTimestamp
-    @Column(name = "last_modified_date")
+    @Column(name = "lastModifiedDate")
     private Timestamp lastModifiedDate;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna
-    private User user;
+    @OneToMany(mappedBy = "user") // też może sie przez mapowanie wyjebać, ma być to nazwa fielda w klasie Job
+    private Set<Job> jobs;
 }
