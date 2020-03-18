@@ -6,29 +6,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/job")
 public class JobController {
 
-    @Autowired
     private JobService jobService;
+
+    @Autowired
+    public JobController(JobService jobService) {
+        this.jobService = jobService;
+    }
 
     //testing purposes
 
-    @GetMapping("/save")
-    public ResponseEntity<Job> saveJob() {
+    @GetMapping("/{jobId}")
+    public ResponseEntity<Job> getJob(@PathVariable("jobId") Integer jobId) {
+        Optional<Job> job = jobService.getJob(jobId);
+        return job.isPresent() ? new ResponseEntity<>(job.get(), HttpStatus.OK) : new ResponseEntity<>(new Job(), HttpStatus.NOT_FOUND);
+    }
 
-        Job job = Job.builder().days("test").createdDate(Timestamp.valueOf(LocalDateTime.now())).build();
-
+    @PostMapping
+    public ResponseEntity addJob(@RequestBody Job job) {
         jobService.addJob(job);
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
 
-        return new ResponseEntity<>(job, HttpStatus.OK);
+    @PutMapping("/{jobId}")
+    public ResponseEntity updateJobById(@PathVariable("jobId") Integer jobId, @RequestBody Job job) {
+        jobService.updateJob(jobId, job);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{jobId}")
+    public ResponseEntity deleteJobById(@PathVariable("jobId") Integer jobId) {
+        jobService.deleteJob(jobId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+        //add EXCEPTION HANDLING
     }
 
 }

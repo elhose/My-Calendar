@@ -10,8 +10,13 @@ import java.util.Optional;
 @Service
 public class JobServiceImpl implements JobService {
 
-    @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    public JobServiceImpl(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
+    }
+
 
     @Override
     public Iterable<Job> getJobs() {
@@ -24,12 +29,23 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Optional getJob(Integer idOfJob) {
-        return jobRepository.findById(idOfJob);
+    public Optional getJob(Integer id) {
+        return jobRepository.findById(id);
     }
 
     @Override
-    public void deleteJob(Integer idOfJob) {
-        jobRepository.deleteById(idOfJob);
+    public void deleteJob(Integer id) {
+        jobRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateJob(Integer id, Job job) {
+        Optional<Job> foundJob = jobRepository.findById(id);
+
+        if (foundJob.isPresent()){
+            job.setId(foundJob.get().getId());
+        }
+
+        jobRepository.save(job);
     }
 }
