@@ -1,5 +1,6 @@
 package com.js.calendar.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,16 +9,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
-@ToString
-@EqualsAndHashCode
-@Builder
+@Data
 @Entity
 @Table(name = "users")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class User {
 
     @Id
@@ -41,5 +35,16 @@ public class User {
 
     @OneToMany(mappedBy = "user") // też może sie przez mapowanie wyjebać, ma być to nazwa fielda w klasie Job
 //    @JsonManagedReference
+    @JsonIgnore
     private Set<Job> jobs;
+
+    public User(String username, String password, Boolean enabled, Timestamp createdDate, Timestamp lastModifiedDate) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public User() {}
 }

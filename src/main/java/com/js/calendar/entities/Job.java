@@ -8,13 +8,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
-@ToString
-@EqualsAndHashCode
-@Builder
+@Data
 @Entity
 @Table(name = "jobs")
 //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
@@ -40,7 +34,16 @@ public class Job {
     private Timestamp lastModifiedDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna w tej encji
-//    @JsonIgnore
+    @JoinColumn(name = "user_id", nullable = false)
+    //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna w tej encji
     private User user;
+
+    public Job(String testString, BigDecimal hourlyState, Timestamp createdDate, Timestamp lastModifiedDate) {
+        this.testString = testString;
+        this.hourlyState = hourlyState;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public Job() {}
 }
