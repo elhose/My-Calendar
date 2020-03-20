@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 @Builder
 @Entity
 @Table(name = "jobs")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Job {
 
     @Id
@@ -40,5 +41,6 @@ public class Job {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna w tej encji
+//    @JsonIgnore
     private User user;
 }

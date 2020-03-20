@@ -17,6 +17,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "users")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class User {
 
     @Id
@@ -31,13 +32,14 @@ public class User {
     private Boolean enabled;
 
     @CreationTimestamp
-    @Column(name = "createdDate", updatable = false)
+    @Column(name = "created_date", updatable = false)
     private Timestamp createdDate;
 
     @UpdateTimestamp
-    @Column(name = "lastModifiedDate")
+    @Column(name = "last_modified_date")
     private Timestamp lastModifiedDate;
 
     @OneToMany(mappedBy = "user") // też może sie przez mapowanie wyjebać, ma być to nazwa fielda w klasie Job
+//    @JsonManagedReference
     private Set<Job> jobs;
 }
