@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Entity
@@ -29,6 +30,9 @@ public class DayInCalendar {
     @UpdateTimestamp
     @Column(name = "last_modified_date")
     private Timestamp lastModifiedDate;
+
+    @ManyToMany(mappedBy = "days") //mapped by field name in Job.class
+    private Set<Job> jobs;
 
     public DayInCalendar(LocalDate day, Boolean isWorkday, Timestamp createdDate, Timestamp lastModifiedDate) {
         this.day = day;

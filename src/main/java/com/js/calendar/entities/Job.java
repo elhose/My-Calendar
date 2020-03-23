@@ -1,12 +1,13 @@
 package com.js.calendar.entities;
 
-import lombok.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Data
 @Entity
@@ -33,10 +34,14 @@ public class Job {
     @Column(name = "last_modified_date")
     private Timestamp lastModifiedDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id", nullable = false)
     //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna w tej encji
     private User user;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "jobs_days", joinColumns = {@JoinColumn(name = "job_id")}, inverseJoinColumns = {@JoinColumn(name = "day_id")})
+    private Set<DayInCalendar> days;
 
     public Job(String testString, BigDecimal hourlyState, Timestamp createdDate, Timestamp lastModifiedDate) {
         this.testString = testString;
@@ -45,5 +50,6 @@ public class Job {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public Job() {}
+    public Job() {
+    }
 }

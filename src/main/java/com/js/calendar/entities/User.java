@@ -33,7 +33,8 @@ public class User {
     @Column(name = "last_modified_date")
     private Timestamp lastModifiedDate;
 
-    @OneToMany(mappedBy = "user") // też może sie przez mapowanie wyjebać, ma być to nazwa fielda w klasie Job
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    // też może sie przez mapowanie wyjebać, ma być to nazwa fielda w klasie Job
 //    @JsonManagedReference
     @JsonIgnore
     private Set<Job> jobs;
@@ -46,5 +47,6 @@ public class User {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public User() {}
+    public User() {
+    }
 }
