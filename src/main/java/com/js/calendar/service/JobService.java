@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface JobService {
     Iterable<Job> getJobs();
     void addJob(Job job);
-    void updateJob(Integer id, Job job);
-    Optional getJob(Integer id);
-    void deleteJob(Integer id);
+    void updateJob(Long id, Job job);
+    Optional<Job> getJob(Long id);
+    void deleteJob(Long id);
 }

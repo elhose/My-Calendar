@@ -28,7 +28,7 @@ public class JobController {
     }
 
     @GetMapping("/{jobId}")
-    public ResponseEntity<Job> getJob(@PathVariable("jobId") Integer jobId) {
+    public ResponseEntity<Job> getJob(@PathVariable("jobId") Long jobId) {
         Optional<Job> job = jobService.getJob(jobId);
         return job.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new Job(), HttpStatus.NOT_FOUND));
     }
@@ -40,13 +40,13 @@ public class JobController {
     }
 
     @PutMapping("/{jobId}")
-    public ResponseEntity updateJobById(@PathVariable("jobId") Integer jobId, @RequestBody Job job) {
+    public ResponseEntity updateJobById(@PathVariable("jobId") Long jobId, @RequestBody Job job) {
         jobService.updateJob(jobId, job);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{jobId}")
-    public ResponseEntity deleteJobById(@PathVariable("jobId") Integer jobId) {
+    public ResponseEntity deleteJobById(@PathVariable("jobId") Long jobId) {
         jobService.deleteJob(jobId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
         //add EXCEPTION HANDLING

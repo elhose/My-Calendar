@@ -31,22 +31,20 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Optional getJob(Integer id) {
+    public Optional<Job> getJob(Long id) {
         return jobRepository.findById(id);
     }
 
     @Override
-    public void deleteJob(Integer id) {
+    public void deleteJob(Long id) {
         jobRepository.deleteById(id);
     }
 
     @Override
-    public void updateJob(Integer id, Job job) {
+    public void updateJob(Long id, Job job) {
         Optional<Job> foundJob = jobRepository.findById(id);
 
-        if (foundJob.isPresent()){
-            job.setId(foundJob.get().getId());
-        }
+        foundJob.ifPresent(value -> job.setId(value.getId()));
 
         jobRepository.save(job);
     }
