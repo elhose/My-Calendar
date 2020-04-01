@@ -30,23 +30,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Integer id, User user) {
+    public void updateUser(Long id, User user) {
         Optional<User> foundUser = userRepository.findById(id);
 
-        if (foundUser.isPresent()){
-            user.setId(foundUser.get().getId());
-        }
+        foundUser.ifPresent(value -> user.setId(value.getId()));
 
         userRepository.save(user);
     }
 
     @Override
-    public Optional<User> getUser(Integer id) {
+    public Optional<User> getUser(Long id) {
         return  userRepository.findById(id);
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.js.calendar.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -34,6 +35,7 @@ public class Job {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id", nullable = false)
     //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna w tej encji
+    @JsonIgnoreProperties("jobs")
     private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
