@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface DayService {
     Iterable<Day> getDays();
     void addDay(Day day);
-    void updateDay(Integer id, Day day);
-    Optional<Day> getDay(Integer id);
-    void deleteDay(Integer id);
+    void updateDay(Long id, Day day);
+    Optional<Day> getDay(Long id);
+    void deleteDay(Long id);
 }

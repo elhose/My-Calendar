@@ -30,7 +30,7 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public void updateDay(Integer id, Day day) {
+    public void updateDay(Long id, Day day) {
         Optional<Day> foundDay = dayRepository.findById(id);
 
         foundDay.ifPresent(value -> day.setId(value.getId()));
@@ -39,12 +39,12 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public Optional<Day> getDay(Integer id) {
+    public Optional<Day> getDay(Long id) {
         return dayRepository.findById(id);
     }
 
     @Override
-    public void deleteDay(Integer id) {
+    public void deleteDay(Long id) {
         dayRepository.deleteById(id);
     }
 }

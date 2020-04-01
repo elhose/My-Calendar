@@ -26,7 +26,7 @@ public class DayController {
     }
 
     @GetMapping("/{dayId}")
-    public ResponseEntity<Day> getDayById(@PathVariable("dayId") Integer dayId) {
+    public ResponseEntity<Day> getDayById(@PathVariable("dayId") Long dayId) {
         Optional<Day> day = dayService.getDay(dayId);
 
         return day.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new Day(), HttpStatus.NOT_FOUND));
@@ -39,13 +39,13 @@ public class DayController {
     }
 
     @PutMapping("/{dayId}")
-    public ResponseEntity updateUser(@PathVariable("dayId") Integer dayId, @RequestBody Day day) {
+    public ResponseEntity updateUser(@PathVariable("dayId") Long dayId, @RequestBody Day day) {
         dayService.updateDay(dayId, day);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{dayId}")
-    public ResponseEntity deleteUser(@PathVariable("dayId") Integer dayId) {
+    public ResponseEntity deleteUser(@PathVariable("dayId") Long dayId) {
         dayService.deleteDay(dayId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
