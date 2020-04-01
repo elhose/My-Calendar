@@ -41,7 +41,7 @@ public class Job {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "jobs_days", joinColumns = {@JoinColumn(name = "job_id")}, inverseJoinColumns = {@JoinColumn(name = "day_id")})
-    private Set<DayInCalendar> days;
+    private Set<Day> days;
 
     public Job(String testString, BigDecimal hourlyState, Timestamp createdDate, Timestamp lastModifiedDate) {
         this.testString = testString;
