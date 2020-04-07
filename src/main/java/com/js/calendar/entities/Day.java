@@ -1,14 +1,14 @@
 package com.js.calendar.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "days")
@@ -18,7 +18,7 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "day",nullable = false)
+    @Column(name = "day", nullable = false)
     private LocalDate dayOfProject;
 
     @Column(name = "is_workday", nullable = false)
@@ -33,8 +33,8 @@ public class Day {
     private Timestamp lastModifiedDate;
 
     @ManyToMany(mappedBy = "days") //mapped by field name in Job.class
-    @JsonIgnore
-    private Set<Job> jobs;
+    @JsonBackReference
+    private List<Job> jobs;
 
     public Day(LocalDate dayOfProject, Boolean isWorkday) {
         this.dayOfProject = dayOfProject;
@@ -59,19 +59,19 @@ public class Day {
         this.dayOfProject = day;
     }
 
-    public Boolean getWorkday() {
+    public Boolean getIsWorkday() {
         return isWorkday;
     }
 
-    public void setWorkday(Boolean workday) {
+    public void setIsWorkday(Boolean workday) {
         isWorkday = workday;
     }
 
-    public Set<Job> getJobs() {
+    public List<Job> getJobs() {
         return jobs;
     }
 
-    public void setJobs(Set<Job> jobs) {
+    public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
     }
 

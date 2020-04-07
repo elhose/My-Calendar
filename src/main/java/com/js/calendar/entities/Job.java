@@ -1,14 +1,15 @@
 package com.js.calendar.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "jobs")
@@ -32,17 +33,18 @@ public class Job {
     @Column(name = "last_modified_date")
     private Timestamp lastModifiedDate;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(targetEntity = User.class, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id")
     //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna w tej encji
-    @JsonIgnoreProperties("jobs")
+    @JsonBackReference
     private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "jobs_days",
             joinColumns = {@JoinColumn(name = "job_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "day_id", referencedColumnName = "id")})
-    private Set<Day> days;
+    @JsonManagedReference
+    private List<Day> days;
 
     public Job(String testString, BigDecimal hourlyState) {
         this.testString = testString;
@@ -84,11 +86,11 @@ public class Job {
         this.user = user;
     }
 
-    public Set<Day> getDays() {
+    public List<Day> getDays() {
         return days;
     }
 
-    public void setDays(Set<Day> days) {
+    public void setDays(List<Day> days) {
         this.days = days;
     }
 

@@ -1,12 +1,13 @@
 package com.js.calendar.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -33,10 +34,11 @@ public class User {
     @Column(name = "last_modified_date")
     private Timestamp lastModifiedDate;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     // też może sie przez mapowanie wyjebać, ma być to nazwa fielda w klasie Job
 //    @JsonIgnore
-    private Set<Job> jobs;
+    @JsonManagedReference
+    private List<Job> jobs;
 
     public User(String username, String password, Boolean enabled) {
         this.username = username;
@@ -79,7 +81,7 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Set<Job> getJobs() {
+    public List<Job> getJobs() {
         return jobs;
     }
 
@@ -93,7 +95,7 @@ public class User {
         job.setUser(null);
     }
 
-    public void setJobs(Set<Job> jobs) {
+    public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
     }
 
