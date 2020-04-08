@@ -1,7 +1,5 @@
 package com.js.calendar.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -35,15 +33,12 @@ public class Job {
 
     @ManyToOne(targetEntity = User.class, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
-    //możliwe że wyjebie sie na mappedBy bo nie wiem co tu wpierdolić - ma być ponoć mapowana kolumna w tej encji
-    @JsonBackReference
     private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "jobs_days",
             joinColumns = {@JoinColumn(name = "job_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "day_id", referencedColumnName = "id")})
-    @JsonManagedReference
     private List<Day> days;
 
     public Job(String testString, BigDecimal hourlyState) {

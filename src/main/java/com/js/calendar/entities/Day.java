@@ -1,6 +1,5 @@
 package com.js.calendar.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -33,7 +32,6 @@ public class Day {
     private Timestamp lastModifiedDate;
 
     @ManyToMany(mappedBy = "days") //mapped by field name in Job.class
-    @JsonBackReference
     private List<Job> jobs;
 
     public Day(LocalDate dayOfProject, Boolean isWorkday) {

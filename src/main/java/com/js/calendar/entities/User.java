@@ -1,6 +1,5 @@
 package com.js.calendar.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -35,9 +34,6 @@ public class User {
     private Timestamp lastModifiedDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    // też może sie przez mapowanie wyjebać, ma być to nazwa fielda w klasie Job
-//    @JsonIgnore
-    @JsonManagedReference
     private List<Job> jobs;
 
     public User(String username, String password, Boolean enabled) {
