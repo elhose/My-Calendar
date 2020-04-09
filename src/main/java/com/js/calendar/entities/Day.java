@@ -21,7 +21,7 @@ public class Day {
     private LocalDate dayOfProject;
 
     @Column(name = "is_workday", nullable = false)
-    private Boolean isWorkday;
+    private Boolean workday;
 
     @CreationTimestamp
     @Column(name = "created_date", updatable = false)
@@ -34,9 +34,9 @@ public class Day {
     @ManyToMany(mappedBy = "days") //mapped by field name in Job.class
     private List<Job> jobs;
 
-    public Day(LocalDate dayOfProject, Boolean isWorkday) {
+    public Day(LocalDate dayOfProject, Boolean workday) {
         this.dayOfProject = dayOfProject;
-        this.isWorkday = isWorkday;
+        this.workday = workday;
     }
 
     public Day() {}
@@ -57,12 +57,12 @@ public class Day {
         this.dayOfProject = day;
     }
 
-    public Boolean getIsWorkday() {
-        return isWorkday;
+    public Boolean getWorkday() {
+        return workday;
     }
 
-    public void setIsWorkday(Boolean workday) {
-        isWorkday = workday;
+    public void setWorkday(Boolean workday) {
+        this.workday = workday;
     }
 
     public List<Job> getJobs() {
@@ -108,7 +108,7 @@ public class Day {
 
         if (!Objects.equals(id, day1.id)) return false;
         if (!Objects.equals(dayOfProject, day1.dayOfProject)) return false;
-        if (!Objects.equals(isWorkday, day1.isWorkday)) return false;
+        if (!Objects.equals(workday, day1.workday)) return false;
         if (!Objects.equals(createdDate, day1.createdDate)) return false;
         if (!Objects.equals(lastModifiedDate, day1.lastModifiedDate))
             return false;
@@ -119,7 +119,7 @@ public class Day {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (dayOfProject != null ? dayOfProject.hashCode() : 0);
-        result = 31 * result + (isWorkday != null ? isWorkday.hashCode() : 0);
+        result = 31 * result + (workday != null ? workday.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (lastModifiedDate != null ? lastModifiedDate.hashCode() : 0);
         result = 31 * result + (jobs != null ? jobs.hashCode() : 0);
@@ -131,7 +131,7 @@ public class Day {
         return "Day{" +
                 "id=" + id +
                 ", day=" + dayOfProject +
-                ", isWorkday=" + isWorkday +
+                ", isWorkday=" + workday +
                 ", createdDate=" + createdDate +
                 ", lastModifiedDate=" + lastModifiedDate +
                 ", jobs=" + jobs +
