@@ -2,6 +2,7 @@ package com.js.calendar.mappers;
 
 import com.js.calendar.dto.JobDTO;
 import com.js.calendar.dto.JobShortDTO;
+import com.js.calendar.dto.JobUpdateDTO;
 import com.js.calendar.entities.Job;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -19,6 +20,9 @@ public interface JobMapper {
 
     JobShortDTO mapJobToShortJobDTO(Job job);
 
-    @InheritInverseConfiguration(name = "mapJobToShortJobDTO")
     Job mapJobShortDtoToJob(JobShortDTO jobShortDTO);
+
+    JobUpdateDTO mapJobToUpdateJobDto(Job job);
+
+    Job mapJobUpdateDtoToJob(JobUpdateDTO jobUpdateDTO);
 }
