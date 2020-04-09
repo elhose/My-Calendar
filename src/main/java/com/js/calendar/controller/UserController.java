@@ -1,52 +1,66 @@
 package com.js.calendar.controller;
 
+import com.js.calendar.dto.UserDTO;
+import com.js.calendar.dto.UserUpdateDTO;
 import com.js.calendar.entities.User;
+import com.js.calendar.mappers.UserMapper;
 import com.js.calendar.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
 public class UserController {
 
-    private UserService userService;
+    private UserMapper mapper;
+    private UserService service;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserMapper mapper, UserService service) {
+        this.mapper = mapper;
+        this.service = service;
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<User>> getUsers() {
-        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
+    public ResponseEntity<Iterable<UserDTO>> getUsers() {
+        Iterable<User> users = service.getUsers();
+        List<UserDTO> dtos = new ArrayList<>();
+
+        users.forEach(user -> dtos.add(mapper.mapUserToUserDTO(user)));
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable("userId") Long userId) {
-        Optional<User> user = userService.getUser(userId);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("userId") Long userId) {
+        Optional<User> user = service.getUser(userId);
 
-        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new User(), HttpStatus.NOT_FOUND));
+        return user.map(value -> new ResponseEntity<>(mapper.mapUserToUserDTO(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new UserDTO(), HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity addNewUser(@RequestBody User user) {
-        userService.addUser(user);
+    public ResponseEntity addNewUser(@RequestBody UserUpdateDTO userUpdateDTO) {
+        User user = mapper.mapUserUpdateDtoToUser(userUpdateDTO);
+        user.setEnabled(true);
+        service.addUser(user);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity updateUser(@PathVariable("userId") Long userId, @RequestBody User user) {
-        userService.updateUser(userId, user);
+    public ResponseEntity updateUser(@PathVariable("userId") Long userId, @RequestBody UserUpdateDTO userUpdateDTO) {
+        User user = mapper.mapUserUpdateDtoToUser(userUpdateDTO);
+        user.setEnabled(true);
+        service.updateUser(userId, user);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable("userId") Long userId) {
-        userService.deleteUser(userId);
+        service.deleteUser(userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

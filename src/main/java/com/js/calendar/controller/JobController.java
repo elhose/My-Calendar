@@ -1,55 +1,64 @@
 package com.js.calendar.controller;
 
+import com.js.calendar.dto.JobDTO;
+import com.js.calendar.dto.JobUpdateDTO;
 import com.js.calendar.entities.Job;
+import com.js.calendar.mappers.JobMapper;
 import com.js.calendar.service.JobService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("jobs")
 public class JobController {
 
-    private JobService jobService;
+    private JobMapper mapper;
+    private JobService service;
 
-    @Autowired
-    public JobController(JobService jobService) {
-        this.jobService = jobService;
+    public JobController(JobMapper mapper, JobService service) {
+        this.mapper = mapper;
+        this.service = service;
     }
 
-    //testing purposes
-
     @GetMapping
-    public ResponseEntity<Iterable<Job>> getJobs() {
-        return new ResponseEntity<>(jobService.getJobs(), HttpStatus.OK);
+    public ResponseEntity<Iterable<JobDTO>> getJobs() {
+        Iterable<Job> jobs = service.getJobs();
+        List<JobDTO> dtos = new ArrayList<>();
+
+        jobs.forEach(job -> dtos.add(mapper.mapJobToJobDTO(job)));
+
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/{jobId}")
-    public ResponseEntity<Job> getJob(@PathVariable("jobId") Long jobId) {
-        Optional<Job> job = jobService.getJob(jobId);
-        return job.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new Job(), HttpStatus.NOT_FOUND));
+    public ResponseEntity<JobDTO> getJob(@PathVariable("jobId") Long jobId) {
+        Optional<Job> job = service.getJob(jobId);
+        return job.map(value -> new ResponseEntity<>(mapper.mapJobToJobDTO(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new JobDTO(), HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity addJob(@RequestBody Job job) {
-        jobService.addJob(job);
+    public ResponseEntity addJob(@RequestBody JobUpdateDTO jobUpdateDTO) {
+        Job job = mapper.mapJobUpdateDtoToJob(jobUpdateDTO);
+        service.addJob(job);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/{jobId}")
-    public ResponseEntity updateJobById(@PathVariable("jobId") Long jobId, @RequestBody Job job) {
-        jobService.updateJob(jobId, job);
+    public ResponseEntity updateJobById(@PathVariable("jobId") Long jobId, @RequestBody JobUpdateDTO jobUpdateDTO) {
+        Job job = mapper.mapJobUpdateDtoToJob(jobUpdateDTO);
+        service.updateJob(jobId, job);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{jobId}")
     public ResponseEntity deleteJobById(@PathVariable("jobId") Long jobId) {
-        jobService.deleteJob(jobId);
+        service.deleteJob(jobId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
-        //add EXCEPTION HANDLING
     }
 
 }
