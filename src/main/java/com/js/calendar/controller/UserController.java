@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Iterable<UserDTO>> getUsers() {
-        Iterable<User> users = service.getUsers();
+        Iterable<User> users = service.getEntities();
         List<UserDTO> dtos = new ArrayList<>();
 
         users.forEach(user -> dtos.add(mapper.mapUserToUserDTO(user)));
@@ -37,7 +37,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable("userId") Long userId) {
-        Optional<User> user = service.getUser(userId);
+        Optional<User> user = service.getEntity(userId);
 
         return user.map(value -> new ResponseEntity<>(mapper.mapUserToUserDTO(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new UserDTO(), HttpStatus.NOT_FOUND));
     }
@@ -46,7 +46,7 @@ public class UserController {
     public ResponseEntity addNewUser(@RequestBody UserUpdateDTO userUpdateDTO) {
         User user = mapper.mapUserUpdateDtoToUser(userUpdateDTO);
         user.setEnabled(true);
-        service.addUser(user);
+        service.addEntity(user);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -54,13 +54,13 @@ public class UserController {
     public ResponseEntity updateUser(@PathVariable("userId") Long userId, @RequestBody UserUpdateDTO userUpdateDTO) {
         User user = mapper.mapUserUpdateDtoToUser(userUpdateDTO);
         user.setEnabled(true);
-        service.updateUser(userId, user);
+        service.updateEntity(userId, user);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable("userId") Long userId) {
-        service.deleteUser(userId);
+        service.deleteEntity(userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

@@ -27,7 +27,7 @@ public class DayController {
 
     @GetMapping
     public ResponseEntity<Iterable<DayDTO>> getDays() {
-        Iterable<Day> days = service.getDays();
+        Iterable<Day> days = service.getEntities();
         List<DayDTO> dtos = new ArrayList<>();
 
         days.forEach(day -> dtos.add(mapper.mapDayToDto(day)));
@@ -37,7 +37,7 @@ public class DayController {
 
     @GetMapping("/{dayId}")
     public ResponseEntity<DayDTO> getDayById(@PathVariable("dayId") Long dayId) {
-        Optional<Day> day = service.getDay(dayId);
+        Optional<Day> day = service.getEntity(dayId);
 
         return day.map(value -> new ResponseEntity<>(mapper.mapDayToDto(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new DayDTO(), HttpStatus.NOT_FOUND));
     }
@@ -45,20 +45,20 @@ public class DayController {
     @PostMapping
     public ResponseEntity addNewDay(@RequestBody DayUpdateDTO dayUpdateDTO) {
         Day day = mapper.mapDayUpdateDtoToDay(dayUpdateDTO);
-        service.addDay(day);
+        service.addEntity(day);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/{dayId}")
     public ResponseEntity updateUser(@PathVariable("dayId") Long dayId, @RequestBody DayUpdateDTO dayUpdateDTO) {
         Day day = mapper.mapDayUpdateDtoToDay(dayUpdateDTO);
-        service.updateDay(dayId, day);
+        service.updateEntity(dayId, day);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{dayId}")
     public ResponseEntity deleteUser(@PathVariable("dayId") Long dayId) {
-        service.deleteDay(dayId);
+        service.deleteEntity(dayId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
