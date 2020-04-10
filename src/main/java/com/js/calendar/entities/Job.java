@@ -11,11 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "jobs")
-public class Job {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Job extends BaseEntity{
 
     @Column(name = "test_string")
     private String testString;
@@ -47,14 +43,6 @@ public class Job {
     }
 
     public Job() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTestString() {
@@ -122,7 +110,7 @@ public class Job {
 
         Job job = (Job) o;
 
-        if (!Objects.equals(id, job.id)) return false;
+        if (!Objects.equals(getId(), job.getId())) return false;
         if (!Objects.equals(testString, job.testString)) return false;
         if (!Objects.equals(hourlyState, job.hourlyState)) return false;
         if (!Objects.equals(createdDate, job.createdDate)) return false;
@@ -134,7 +122,7 @@ public class Job {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (testString != null ? testString.hashCode() : 0);
         result = 31 * result + (hourlyState != null ? hourlyState.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
@@ -147,7 +135,7 @@ public class Job {
     @Override
     public String toString() {
         return "Job{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", testString='" + testString + '\'' +
                 ", hourlyState=" + hourlyState +
                 ", createdDate=" + createdDate +

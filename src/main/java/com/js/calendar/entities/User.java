@@ -10,11 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity{
 
     @Column(nullable = false)
     private String username;
@@ -45,14 +41,6 @@ public class User {
     public User() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -81,6 +69,10 @@ public class User {
         return jobs;
     }
 
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
     public void addJob(Job job) {
         this.getJobs().add(job);
         job.setUser(this);
@@ -89,10 +81,6 @@ public class User {
     public void removeJob(Job job) {
         this.getJobs().remove(job);
         job.setUser(null);
-    }
-
-    public void setJobs(List<Job> jobs) {
-        this.jobs = jobs;
     }
 
     public Timestamp getCreatedDate() {
@@ -118,7 +106,7 @@ public class User {
 
         User user = (User) o;
 
-        if (!Objects.equals(id, user.id)) return false;
+        if (!Objects.equals(getId(), user.getId())) return false;
         if (!Objects.equals(username, user.username)) return false;
         if (!Objects.equals(password, user.password)) return false;
         if (!Objects.equals(enabled, user.enabled)) return false;
@@ -130,7 +118,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (enabled != null ? enabled.hashCode() : 0);
@@ -140,4 +128,16 @@ public class User {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + getId() +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", createdDate=" + createdDate +
+                ", lastModifiedDate=" + lastModifiedDate +
+                ", jobs=" + jobs +
+                '}';
+    }
 }

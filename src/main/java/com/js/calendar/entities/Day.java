@@ -11,11 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "days")
-public class Day {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Day extends BaseEntity {
 
     @Column(name = "day", nullable = false)
     private LocalDate dayOfProject;
@@ -39,14 +35,7 @@ public class Day {
         this.workday = workday;
     }
 
-    public Day() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Day() {
     }
 
     public LocalDate getDayOfProject() {
@@ -106,7 +95,7 @@ public class Day {
 
         Day day1 = (Day) o;
 
-        if (!Objects.equals(id, day1.id)) return false;
+        if (!Objects.equals(getId(), day1.getId())) return false;
         if (!Objects.equals(dayOfProject, day1.dayOfProject)) return false;
         if (!Objects.equals(workday, day1.workday)) return false;
         if (!Objects.equals(createdDate, day1.createdDate)) return false;
@@ -117,7 +106,7 @@ public class Day {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (dayOfProject != null ? dayOfProject.hashCode() : 0);
         result = 31 * result + (workday != null ? workday.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
@@ -129,7 +118,7 @@ public class Day {
     @Override
     public String toString() {
         return "Day{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", day=" + dayOfProject +
                 ", isWorkday=" + workday +
                 ", createdDate=" + createdDate +
