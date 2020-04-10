@@ -1,25 +1,25 @@
 package com.js.calendar.mappers;
 
-import com.js.calendar.dto.DayDTO;
-import com.js.calendar.dto.DayShortDTO;
-import com.js.calendar.dto.DayUpdateDTO;
+import com.js.calendar.dto.day.DayDTO;
+import com.js.calendar.dto.day.DayShortDTO;
+import com.js.calendar.dto.day.DayUpdateDTO;
 import com.js.calendar.entities.Day;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(uses = {DateTimeMapper.class, JobMapper.class})
-public interface DayMapper {
+public interface DayMapper extends BaseMapper<DayDTO, DayShortDTO, DayUpdateDTO ,Day>{
 
     @Mapping(source = "jobs", target = "jobShortDTOS")
-    DayDTO mapDayToDto(Day day);
+    DayDTO mapEntityToDto(Day day);
 
-    Day mapDtoToDay(DayDTO dayDTO);
+    Day mapDtoToEntity(DayDTO dayDTO);
 
-    DayShortDTO mapDayToDayShortDto(Day day);
+    DayShortDTO mapEntityToShortDto(Day day);
 
-    Day mapDayShortDtoToDay(DayShortDTO dayShortDTO);
+    Day mapShortDtoToEntity(DayShortDTO dayShortDTO);
 
-    DayUpdateDTO mapDayToDayUpdateDto(Day day);
+    DayUpdateDTO mapEntityToUpdateDto(Day day);
 
-    Day mapDayUpdateDtoToDay(DayUpdateDTO dayUpdateDTO);
+    Day mapUpdateDtoToEntity(DayUpdateDTO dayUpdateDTO);
 }
