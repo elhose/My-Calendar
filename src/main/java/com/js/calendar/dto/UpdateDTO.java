@@ -1,4 +1,4 @@
 package com.js.calendar.dto;
 
-public  class UpdateDTO {
+public abstract class UpdateDTO {
 }

@@ -1,4 +1,4 @@
 package com.js.calendar.dto;
 
-public class BaseDTO {
+public abstract class BaseDTO {
 }
