@@ -1,25 +1,25 @@
 package com.js.calendar.mappers;
 
-import com.js.calendar.dto.UserDTO;
-import com.js.calendar.dto.UserShortDTO;
-import com.js.calendar.dto.UserUpdateDTO;
+import com.js.calendar.dto.user.UserDTO;
+import com.js.calendar.dto.user.UserShortDTO;
+import com.js.calendar.dto.user.UserUpdateDTO;
 import com.js.calendar.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(uses = {DateTimeMapper.class, JobMapper.class})
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<UserDTO, UserShortDTO, UserUpdateDTO, User>{
 
     @Mapping(source = "jobs", target = "jobShortDTOS")
-    UserDTO mapUserToUserDTO(User user);
+    UserDTO mapEntityToDto(User user);
 
-    User mapDtoToUser(UserDTO userDTO);
+    User mapDtoToEntity(UserDTO userDTO);
 
-    UserShortDTO mapUserToUserShortDto(User user);
+    UserShortDTO mapEntityToShortDto(User user);
 
-    User mapUserShortDtoToUser(UserShortDTO userShortDTO);
+    User mapShortDtoToEntity(UserShortDTO userShortDTO);
 
-    UserUpdateDTO mapUserToUserUpdateDto(User user);
+    UserUpdateDTO mapEntityToUpdateDto(User user);
 
-    User mapUserUpdateDtoToUser(UserUpdateDTO userUpdateDTO);
+    User mapUpdateDtoToEntity(UserUpdateDTO userUpdateDTO);
 }
