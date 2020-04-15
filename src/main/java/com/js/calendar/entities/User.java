@@ -12,14 +12,14 @@ import java.util.Objects;
 @Table(name = "users")
 public class User extends BaseEntity{
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private Boolean enabled;
+    private Boolean enabled = true; //default value set to true
 
     @CreationTimestamp
     @Column(name = "created_date", updatable = false)
@@ -31,12 +31,6 @@ public class User extends BaseEntity{
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Job> jobs;
-
-    public User(String username, String password, Boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-    }
 
     public User() {
     }
