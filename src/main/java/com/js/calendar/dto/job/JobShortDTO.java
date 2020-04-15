@@ -9,7 +9,7 @@ import java.util.Objects;
 public class JobShortDTO extends ShortDTO {
 
     private Long id;
-    private String testString;
+    private String name;
     private BigDecimal hourlyState;
     private LocalDateTime lastModifiedDate;
 
@@ -24,12 +24,12 @@ public class JobShortDTO extends ShortDTO {
     public JobShortDTO() {
     }
 
-    public String getTestString() {
-        return testString;
+    public String getName() {
+        return name;
     }
 
-    public void setTestString(String testString) {
-        this.testString = testString;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigDecimal getHourlyState() {
@@ -56,7 +56,7 @@ public class JobShortDTO extends ShortDTO {
         JobShortDTO that = (JobShortDTO) o;
 
         if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(testString, that.testString)) return false;
+        if (!Objects.equals(name, that.name)) return false;
         if (!Objects.equals(hourlyState, that.hourlyState)) return false;
         return Objects.equals(lastModifiedDate, that.lastModifiedDate);
     }
@@ -64,7 +64,7 @@ public class JobShortDTO extends ShortDTO {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (testString != null ? testString.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (hourlyState != null ? hourlyState.hashCode() : 0);
         result = 31 * result + (lastModifiedDate != null ? lastModifiedDate.hashCode() : 0);
         return result;
@@ -74,7 +74,7 @@ public class JobShortDTO extends ShortDTO {
     public String toString() {
         return "JobShortDTO{" +
                 "id=" + id +
-                ", testString='" + testString + '\'' +
+                ", testString='" + name + '\'' +
                 ", hourlyState=" + hourlyState +
                 ", lastModifiedDate=" + lastModifiedDate +
                 '}';

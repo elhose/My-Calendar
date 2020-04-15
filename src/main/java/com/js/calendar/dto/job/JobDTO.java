@@ -12,7 +12,7 @@ import java.util.Objects;
 public class JobDTO extends BaseDTO {
 
     private Long id;
-    private String testString;
+    private String name;
     private BigDecimal hourlyState;
     private LocalDateTime lastModifiedDate;
     private List<DayShortDTO> dayShortDTOS;
@@ -29,12 +29,12 @@ public class JobDTO extends BaseDTO {
         this.id = id;
     }
 
-    public String getTestString() {
-        return testString;
+    public String getName() {
+        return name;
     }
 
-    public void setTestString(String testString) {
-        this.testString = testString;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigDecimal getHourlyState() {
@@ -75,7 +75,7 @@ public class JobDTO extends BaseDTO {
         if (o == null || getClass() != o.getClass()) return false;
         JobDTO jobDTO = (JobDTO) o;
         if (!Objects.equals(id, jobDTO.id)) return false;
-        if (!Objects.equals(testString, jobDTO.testString)) return false;
+        if (!Objects.equals(name, jobDTO.name)) return false;
         if (!Objects.equals(hourlyState, jobDTO.hourlyState)) return false;
         if (!Objects.equals(lastModifiedDate, jobDTO.lastModifiedDate)) {
             return false;
@@ -88,7 +88,7 @@ public class JobDTO extends BaseDTO {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (testString != null ? testString.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (hourlyState != null ? hourlyState.hashCode() : 0);
         result = 31 * result + (lastModifiedDate != null ? lastModifiedDate.hashCode() : 0);
         result = 31 * result + (dayShortDTOS != null ? dayShortDTOS.hashCode() : 0);
@@ -100,7 +100,7 @@ public class JobDTO extends BaseDTO {
     public String toString() {
         return "JobDTO{" +
                 "id=" + id +
-                ", testString='" + testString + '\'' +
+                ", testString='" + name + '\'' +
                 ", hourlyState=" + hourlyState +
                 ", lastModifiedDate=" + lastModifiedDate +
                 ", dayShortDTOS=" + dayShortDTOS +

@@ -7,18 +7,18 @@ import java.util.Objects;
 
 public class JobUpdateDTO extends UpdateDTO {
 
-    private String testString;
+    private String name;
     private BigDecimal hourlyState;
 
     public JobUpdateDTO() {
     }
 
-    public String getTestString() {
-        return testString;
+    public String getName() {
+        return name;
     }
 
-    public void setTestString(String testString) {
-        this.testString = testString;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigDecimal getHourlyState() {
@@ -34,13 +34,13 @@ public class JobUpdateDTO extends UpdateDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         JobUpdateDTO that = (JobUpdateDTO) o;
-        if (!Objects.equals(testString, that.testString)) return false;
+        if (!Objects.equals(name, that.name)) return false;
         return Objects.equals(hourlyState, that.hourlyState);
     }
 
     @Override
     public int hashCode() {
-        int result = testString != null ? testString.hashCode() : 0;
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (hourlyState != null ? hourlyState.hashCode() : 0);
         return result;
     }
@@ -48,7 +48,7 @@ public class JobUpdateDTO extends UpdateDTO {
     @Override
     public String toString() {
         return "JobUpdateDTO{" +
-                "testString='" + testString + '\'' +
+                "testString='" + name + '\'' +
                 ", hourlyState=" + hourlyState +
                 '}';
     }

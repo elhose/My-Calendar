@@ -13,10 +13,10 @@ import java.util.Objects;
 @Table(name = "jobs")
 public class Job extends BaseEntity{
 
-    @Column(name = "test_string")
-    private String testString;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-    @Column(name = "hourly_state")
+    @Column(name = "hourly_state", nullable = false)
     private BigDecimal hourlyState;
 
     @CreationTimestamp
@@ -37,20 +37,15 @@ public class Job extends BaseEntity{
             inverseJoinColumns = {@JoinColumn(name = "day_id", referencedColumnName = "id")})
     private List<Day> days;
 
-    public Job(String testString, BigDecimal hourlyState) {
-        this.testString = testString;
-        this.hourlyState = hourlyState;
-    }
-
     public Job() {
     }
 
-    public String getTestString() {
-        return testString;
+    public String getName() {
+        return name;
     }
 
-    public void setTestString(String testString) {
-        this.testString = testString;
+    public void setName(String testString) {
+        this.name = testString;
     }
 
     public BigDecimal getHourlyState() {
@@ -111,7 +106,7 @@ public class Job extends BaseEntity{
         Job job = (Job) o;
 
         if (!Objects.equals(getId(), job.getId())) return false;
-        if (!Objects.equals(testString, job.testString)) return false;
+        if (!Objects.equals(name, job.name)) return false;
         if (!Objects.equals(hourlyState, job.hourlyState)) return false;
         if (!Objects.equals(createdDate, job.createdDate)) return false;
         if (!Objects.equals(lastModifiedDate, job.lastModifiedDate))
@@ -123,7 +118,7 @@ public class Job extends BaseEntity{
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (testString != null ? testString.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (hourlyState != null ? hourlyState.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (lastModifiedDate != null ? lastModifiedDate.hashCode() : 0);
@@ -136,7 +131,7 @@ public class Job extends BaseEntity{
     public String toString() {
         return "Job{" +
                 "id=" + getId() +
-                ", testString='" + testString + '\'' +
+                ", testString='" + name + '\'' +
                 ", hourlyState=" + hourlyState +
                 ", createdDate=" + createdDate +
                 ", lastModifiedDate=" + lastModifiedDate +
