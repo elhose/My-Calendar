@@ -3,7 +3,6 @@ package com.js.calendar.controller;
 import com.js.calendar.dto.BaseDTO;
 import com.js.calendar.dto.ShortDTO;
 import com.js.calendar.dto.UpdateDTO;
-import com.js.calendar.dto.job.JobDTO;
 import com.js.calendar.entities.BaseEntity;
 import com.js.calendar.mappers.BaseMapper;
 import com.js.calendar.service.BaseService;
@@ -58,15 +57,4 @@ public abstract class BaseController<T extends BaseDTO, S extends ShortDTO, U ex
         service.deleteEntity(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
-    @GetMapping("hello")
-    public T test() {
-
-        JobDTO jobDTO = new JobDTO();
-        jobDTO.setTestString("HELLO");
-
-        return (T) jobDTO;
-    }
-
 }
-
