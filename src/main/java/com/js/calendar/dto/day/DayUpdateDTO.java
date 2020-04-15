@@ -2,6 +2,7 @@ package com.js.calendar.dto.day;
 
 import com.js.calendar.dto.UpdateDTO;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ public class DayUpdateDTO extends UpdateDTO {
 
     private LocalDate dayOfProject;
     private Boolean workday;
+    private BigDecimal hours;
 
     public DayUpdateDTO() {
     }
@@ -37,13 +39,15 @@ public class DayUpdateDTO extends UpdateDTO {
         DayUpdateDTO that = (DayUpdateDTO) o;
 
         if (!Objects.equals(dayOfProject, that.dayOfProject)) return false;
-        return Objects.equals(workday, that.workday);
+        if (!Objects.equals(workday, that.workday)) return false;
+        return Objects.equals(hours, that.hours);
     }
 
     @Override
     public int hashCode() {
         int result = dayOfProject != null ? dayOfProject.hashCode() : 0;
         result = 31 * result + (workday != null ? workday.hashCode() : 0);
+        result = 31 * result + (hours != null ? hours.hashCode() : 0);
         return result;
     }
 
@@ -52,6 +56,7 @@ public class DayUpdateDTO extends UpdateDTO {
         return "DayUpdateDTO{" +
                 "dayOfProject=" + dayOfProject +
                 ", workday=" + workday +
+                ", hours=" + hours +
                 '}';
     }
 }

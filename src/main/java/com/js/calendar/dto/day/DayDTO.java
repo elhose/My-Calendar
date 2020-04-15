@@ -3,6 +3,7 @@ package com.js.calendar.dto.day;
 import com.js.calendar.dto.BaseDTO;
 import com.js.calendar.dto.job.JobShortDTO;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ public class DayDTO extends BaseDTO {
     private Long id;
     private LocalDate dayOfProject;
     private Boolean workday;
+    private BigDecimal hours;
     private LocalDateTime lastModifiedDate;
     private List<JobShortDTO> jobShortDTOS;
 
@@ -43,6 +45,14 @@ public class DayDTO extends BaseDTO {
         this.workday = workday;
     }
 
+    public BigDecimal getHours() {
+        return hours;
+    }
+
+    public void setHours(BigDecimal hours) {
+        this.hours = hours;
+    }
+
     public List<JobShortDTO> getJobShortDTOS() {
         return jobShortDTOS;
     }
@@ -70,6 +80,7 @@ public class DayDTO extends BaseDTO {
         if (!Objects.equals(dayOfProject, dayDTO.dayOfProject))
             return false;
         if (!Objects.equals(workday, dayDTO.workday)) return false;
+        if (!Objects.equals(hours, dayDTO.hours)) return false;
         if (!Objects.equals(lastModifiedDate, dayDTO.lastModifiedDate))
             return false;
         return Objects.equals(jobShortDTOS, dayDTO.jobShortDTOS);
@@ -80,6 +91,7 @@ public class DayDTO extends BaseDTO {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (dayOfProject != null ? dayOfProject.hashCode() : 0);
         result = 31 * result + (workday != null ? workday.hashCode() : 0);
+        result = 31 * result + (hours != null ? hours.hashCode() : 0);
         result = 31 * result + (lastModifiedDate != null ? lastModifiedDate.hashCode() : 0);
         result = 31 * result + (jobShortDTOS != null ? jobShortDTOS.hashCode() : 0);
         return result;
@@ -91,6 +103,7 @@ public class DayDTO extends BaseDTO {
                 "id=" + id +
                 ", dayOfProject=" + dayOfProject +
                 ", workday=" + workday +
+                ", hours=" + hours +
                 ", lastModifiedDate=" + lastModifiedDate +
                 ", jobShortDTOS=" + jobShortDTOS +
                 '}';
