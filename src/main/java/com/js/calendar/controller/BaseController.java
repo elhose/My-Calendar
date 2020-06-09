@@ -51,24 +51,24 @@ public abstract class BaseController<T extends BaseDTO, S extends ShortDTO, U ex
     }
 
     @PostMapping
-    public ResponseEntity addEntity(@RequestBody U updateDto) {
+    public ResponseEntity<HttpStatus> addEntity(@RequestBody U updateDto) {
         V day = mapper.mapUpdateDtoToEntity(updateDto);
         service.addEntity(day);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateEntity(@PathVariable("id") Long id, @RequestBody U updateDto) {
+    public ResponseEntity<HttpStatus> updateEntity(@PathVariable("id") Long id, @RequestBody U updateDto) {
         V day = mapper.mapUpdateDtoToEntity(updateDto);
         service.updateEntity(id, day);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteEntity(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> deleteEntity(@PathVariable("id") Long id) {
         try {
             service.deleteEntity(id);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EmptyResultDataAccessException e) {
             throw new NoEntityException("No such entity with ID: " + id + " in DataBase");
         }
