@@ -4,8 +4,10 @@ import com.js.calendar.dto.BaseDTO;
 import com.js.calendar.dto.ShortDTO;
 import com.js.calendar.dto.UpdateDTO;
 import com.js.calendar.entities.BaseEntity;
+import com.js.calendar.exceptions.NoEntityException;
 import com.js.calendar.mappers.BaseMapper;
 import com.js.calendar.service.BaseService;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +30,24 @@ public abstract class BaseController<T extends BaseDTO, S extends ShortDTO, U ex
     public ResponseEntity<Iterable<T>> getEntities() {
         Iterable<V> entities = service.getEntities();
         List<T> dtos = new ArrayList<>();
-        entities.forEach(entity -> dtos.add(mapper.mapEntityToDto(entity)));
+
+        if (entities.iterator().hasNext()) {
+            entities.forEach(entity -> dtos.add(mapper.mapEntityToDto(entity)));
+        } else {
+            throw new NoEntityException("No such entities in DataBase");
+        }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<T> getEntityById(@PathVariable("id") Long id) {
         Optional<V> entity = service.getEntity(id);
-        return entity.map(value -> new ResponseEntity<>(mapper.mapEntityToDto(value), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        if (entity.isPresent()) {
+            T baseDTO = mapper.mapEntityToDto(entity.get());
+            return new ResponseEntity<>(baseDTO, HttpStatus.OK);
+        } else {
+            throw new NoEntityException("No such entity with ID: " + id + " in DataBase");
+        }
     }
 
     @PostMapping
@@ -54,7 +66,11 @@ public abstract class BaseController<T extends BaseDTO, S extends ShortDTO, U ex
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteEntity(@PathVariable("id") Long id) {
-        service.deleteEntity(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        try {
+            service.deleteEntity(id);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NoEntityException("No such entity with ID: " + id + " in DataBase");
+        }
     }
 }
