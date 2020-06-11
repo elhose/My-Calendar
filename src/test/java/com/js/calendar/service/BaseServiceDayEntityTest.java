@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -65,8 +66,63 @@ public class BaseServiceDayEntityTest {
     }
 
     @Test
-    public void getDayById() {
-//        Day day
+    public void getDayByIdWhenDayIsPresentId1() {
+        long id = 1;
+        Optional<Day> repositoryDay = dayRepository.findById(id);
+        Optional<Day> resultDay = Optional.ofNullable(testDayCollection.get(0));
+
+        when(repositoryDay).thenReturn(resultDay);
+
+        //test
+        Optional<Day> testEntity = dayService.getEntity(id);
+
+        assertEquals(testEntity, resultDay);
+        assertEquals(testEntity.get(), resultDay.get());
+    }
+
+    @Test
+    public void getDayByIdWhenDayIsPresentId2() {
+        long id = 2;
+        Optional<Day> repositoryDay = dayRepository.findById(id);
+        Optional<Day> resultDay = Optional.ofNullable(testDayCollection.get(0));
+
+        when(repositoryDay).thenReturn(resultDay);
+
+        //test
+        Optional<Day> testEntity = dayService.getEntity(id);
+
+        assertEquals(testEntity, resultDay);
+        assertEquals(testEntity.get(), resultDay.get());
+    }
+
+    @Test
+    public void getDayByIdWhenDayIsPresentId3() {
+        long id = 3;
+        Optional<Day> repositoryDay = dayRepository.findById(id);
+        Optional<Day> resultDay = Optional.ofNullable(testDayCollection.get(0));
+
+        when(repositoryDay).thenReturn(resultDay);
+
+        //test
+        Optional<Day> testEntity = dayService.getEntity(id);
+
+        assertEquals(testEntity, resultDay);
+        assertEquals(testEntity.get(), resultDay.get());
+    }
+
+    @Test
+    public void getDayByIdWhenDayIsNotPresent() {
+        long id = 12312312312L;
+        Optional<Day> repositoryDay = dayRepository.findById(id);
+        Optional<Day> resultDay = Optional.empty();
+
+        when(repositoryDay).thenReturn(resultDay);
+
+        //test
+        Optional<Day> testEntity = dayService.getEntity(id);
+
+        assertEquals(testEntity, resultDay);
+        assertEquals(testEntity.isPresent(), false);
     }
 
     private <T> List<T> iIterableToList(Iterable<T> iterable) {
