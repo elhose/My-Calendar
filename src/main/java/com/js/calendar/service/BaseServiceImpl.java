@@ -2,6 +2,7 @@ package com.js.calendar.service;
 
 import com.js.calendar.entities.BaseEntity;
 import com.js.calendar.repository.BaseRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,8 +36,10 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     @Override
     public void updateEntity(Long id, T entity) {
         Optional<T> foundEntity = repository.findById(id);
-        foundEntity.ifPresent(found -> entity.setId(found.getId()));
-        repository.save(entity);
+        if (foundEntity.isPresent()) {
+            entity.setId(id);
+            repository.save(entity);
+        } else throw new EmptyResultDataAccessException(Math.toIntExact(id));
     }
 
     @Override
