@@ -63,7 +63,7 @@ public class BaseServiceDayEntityTest {
 
         //test
         Iterable<Day> days = dayService.getEntities();
-        
+
         assertEquals(testDayCollection.size(), iterableToList(days).size());
         verify(dayRepository, times(1)).findAll();
 
@@ -105,7 +105,6 @@ public class BaseServiceDayEntityTest {
 
         when(dayRepository.findAll()).thenReturn(testDayCollection);
         //test
-
         dayService.deleteEntity(id);
         testDayCollection.remove(0);
 
@@ -119,12 +118,26 @@ public class BaseServiceDayEntityTest {
 
         when(dayRepository.findAll()).thenReturn(testDayCollection);
         //test
-
         dayService.deleteEntity(id);
 
         Iterable<Day> allEntities = dayService.getEntities();
         assertEquals(testDayCollection, iterableToList(allEntities));
     }
+
+    @Test
+    public void addDay() {
+        Day day = new Day(123l, LocalDate.now(), true, BigDecimal.valueOf(10), Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
+
+        when(dayRepository.findAll()).thenReturn(testDayCollection);
+        //test
+        dayService.addEntity(day);
+        testDayCollection.add(day);
+
+        Iterable<Day> allEntitiesWithOneExtra = dayService.getEntities();
+        assertEquals(testDayCollection, iterableToList(allEntitiesWithOneExtra));
+    }
+
+
 
     private <T> List<T> iterableToList(Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
