@@ -46,6 +46,10 @@ public class Day extends BaseEntity {
     public Day() {
     }
 
+    public Day(long id, LocalDate dayOfProject, boolean workday, BigDecimal hours, Timestamp created, Timestamp modified) {
+
+    }
+
     public LocalDate getDayOfProject() {
         return dayOfProject;
     }

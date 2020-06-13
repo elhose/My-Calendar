@@ -10,11 +10,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 //@DataJpaTest   //use spring to get beans from context
@@ -70,7 +73,7 @@ public class BaseServiceDayEntityTest {
     }
 
     @Test
-    public void getDayByIdWhenDayIsPresentId() {
+    public void getDayByIdWhenDayIsPresent() {
         long id = 1;
         Optional<Day> repositoryDay = dayRepository.findById(id);
         Optional<Day> resultDay = Optional.ofNullable(testDayCollection.get(0));
@@ -137,7 +140,41 @@ public class BaseServiceDayEntityTest {
         assertEquals(testDayCollection, iterableToList(allEntitiesWithOneExtra));
     }
 
+    @Test
+    public void updateExistingDay() {
+        long id = 1;
+        Day day = new Day(1l,
+                LocalDate.of(1990, Month.JANUARY, 1),
+                true,
+                BigDecimal.valueOf(10),
+                Timestamp.valueOf(LocalDateTime.of(1990, Month.JANUARY, 1, 0, 0)),
+                Timestamp.valueOf(LocalDateTime.of(1990, Month.JANUARY, 1, 0, 0)));
 
+        Optional<Day> dayOptional = Optional.of(testDayCollection.get(0));
+        when(dayRepository.findById(id)).thenReturn(dayOptional);
+
+        //test
+        dayService.updateEntity(id, day);
+        Optional<Day> updatedEntity = dayService.getEntity(id);
+
+        assertEquals(Optional.of(day), updatedEntity);
+        assertEquals(day, updatedEntity.get());
+    }
+
+    @Test()
+    public void updateNotExistingDay() {
+        long id = 1121231231312312L;
+        Day day = new Day(1l,
+                LocalDate.of(1990, Month.JANUARY, 1),
+                true,
+                BigDecimal.valueOf(10),
+                Timestamp.valueOf(LocalDateTime.of(1990, Month.JANUARY, 1, 0, 0)),
+                Timestamp.valueOf(LocalDateTime.of(1990, Month.JANUARY, 1, 0, 0)));
+
+
+        //test
+        assertThrows(EmptyResultDataAccessException.class, () -> dayService.updateEntity(id, day));
+    }
 
     private <T> List<T> iterableToList(Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());

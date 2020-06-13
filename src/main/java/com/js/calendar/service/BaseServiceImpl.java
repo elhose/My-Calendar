@@ -39,7 +39,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
         if (foundEntity.isPresent()) {
             entity.setId(id);
             repository.save(entity);
-        } else throw new EmptyResultDataAccessException(Math.toIntExact(id));
+        } else throw new EmptyResultDataAccessException(0);
     }
 
     @Override
