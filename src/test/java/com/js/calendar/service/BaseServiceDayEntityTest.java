@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -37,6 +38,9 @@ public class BaseServiceDayEntityTest {
 
     @BeforeEach
     private void beforeEach() {
+
+        MockitoAnnotations.initMocks(this);
+
         Day day1 = new Day(1L, LocalDate.now(), true, BigDecimal.valueOf(8L), Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
         Day day2 = new Day(2L, LocalDate.of(2020, 1, 1), false, BigDecimal.valueOf(0L), Timestamp.valueOf(LocalDateTime.MIN), Timestamp.valueOf(LocalDateTime.MIN));
         Day day3 = new Day(3L, LocalDate.of(2020, 4, 1), true, BigDecimal.valueOf(8L), Timestamp.valueOf(LocalDateTime.MAX), Timestamp.valueOf(LocalDateTime.MAX));
@@ -60,44 +64,14 @@ public class BaseServiceDayEntityTest {
         //test
         Iterable<Day> days = dayService.getEntities();
         
-        assertEquals(testDayCollection.size(), iIterableToList(days).size());
+        assertEquals(testDayCollection.size(), iterableToList(days).size());
         verify(dayRepository, times(1)).findAll();
 
     }
 
     @Test
-    public void getDayByIdWhenDayIsPresentId1() {
+    public void getDayByIdWhenDayIsPresentId() {
         long id = 1;
-        Optional<Day> repositoryDay = dayRepository.findById(id);
-        Optional<Day> resultDay = Optional.ofNullable(testDayCollection.get(0));
-
-        when(repositoryDay).thenReturn(resultDay);
-
-        //test
-        Optional<Day> testEntity = dayService.getEntity(id);
-
-        assertEquals(testEntity, resultDay);
-        assertEquals(testEntity.get(), resultDay.get());
-    }
-
-    @Test
-    public void getDayByIdWhenDayIsPresentId2() {
-        long id = 2;
-        Optional<Day> repositoryDay = dayRepository.findById(id);
-        Optional<Day> resultDay = Optional.ofNullable(testDayCollection.get(0));
-
-        when(repositoryDay).thenReturn(resultDay);
-
-        //test
-        Optional<Day> testEntity = dayService.getEntity(id);
-
-        assertEquals(testEntity, resultDay);
-        assertEquals(testEntity.get(), resultDay.get());
-    }
-
-    @Test
-    public void getDayByIdWhenDayIsPresentId3() {
-        long id = 3;
         Optional<Day> repositoryDay = dayRepository.findById(id);
         Optional<Day> resultDay = Optional.ofNullable(testDayCollection.get(0));
 
@@ -121,11 +95,38 @@ public class BaseServiceDayEntityTest {
         //test
         Optional<Day> testEntity = dayService.getEntity(id);
 
-        assertEquals(testEntity, resultDay);
         assertEquals(testEntity.isPresent(), false);
+        assertEquals(testEntity, resultDay);
     }
 
-    private <T> List<T> iIterableToList(Iterable<T> iterable) {
+    @Test
+    public void deleteDayWhenIdPresent() {
+        long id = 1;
+
+        when(dayRepository.findAll()).thenReturn(testDayCollection);
+        //test
+
+        dayService.deleteEntity(id);
+        testDayCollection.remove(0);
+
+        Iterable<Day> allEntitiesMinusOneWithId1 = dayService.getEntities();
+        assertEquals(testDayCollection, iterableToList(allEntitiesMinusOneWithId1));
+    }
+
+    @Test
+    public void deleteDayWhenIdNotPresent() {
+        long id = 12312312312L;
+
+        when(dayRepository.findAll()).thenReturn(testDayCollection);
+        //test
+
+        dayService.deleteEntity(id);
+
+        Iterable<Day> allEntities = dayService.getEntities();
+        assertEquals(testDayCollection, iterableToList(allEntities));
+    }
+
+    private <T> List<T> iterableToList(Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
     }
 }
