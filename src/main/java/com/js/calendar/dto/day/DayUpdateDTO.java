@@ -31,6 +31,14 @@ public class DayUpdateDTO extends UpdateDTO {
         this.workday = workday;
     }
 
+    public BigDecimal getHours() {
+        return hours;
+    }
+
+    public void setHours(BigDecimal hours) {
+        this.hours = hours;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

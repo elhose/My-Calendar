@@ -13,12 +13,14 @@ public interface DayMapper extends BaseMapper<DayDTO, DayShortDTO, DayUpdateDTO 
     @Mapping(source = "jobs", target = "jobShortDTOS")
     DayDTO mapEntityToDto(Day day);
 
+    @Mapping(source = "jobShortDTOS", target = "jobs")
     Day mapDtoToEntity(DayDTO dayDTO);
 
     DayShortDTO mapEntityToShortDto(Day day);
 
     Day mapShortDtoToEntity(DayShortDTO dayShortDTO);
 
+    @Mapping(source = "hours", target = "hours")
     DayUpdateDTO mapEntityToUpdateDto(Day day);
 
     Day mapUpdateDtoToEntity(DayUpdateDTO dayUpdateDTO);
