@@ -31,14 +31,17 @@ public class UserMapperTest {
 
     @Test
     void mapBaseEntityToDtoTest() {
+        //given
         User user = new User();
         user.setUsername("Jeff Bezos");
         user.setPassword("S3cUr3");
         user.setEnabled(true);
         user.setJobs(mockJobs());
 
+        //when
         UserDTO userDTO = userMapper.mapEntityToDto(user);
 
+        //then
         assertNotNull(userDTO);
         assertEquals(user.getUsername(), userDTO.getUsername());
         assertEquals(user.getPassword(), userDTO.getPassword());
@@ -49,14 +52,17 @@ public class UserMapperTest {
 
     @Test
     void mapDtoToBaseEntityEntityTest() {
+        //given
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername("John Doe");
         userDTO.setPassword("Not Secure at all");
         userDTO.setEnabled(false);
         userDTO.setJobShortDTOS(mockShortJobDtos());
 
+        //when
         User user = userMapper.mapDtoToEntity(userDTO);
 
+        //then
         assertNotNull(user);
         assertEquals(userDTO.getUsername(), user.getUsername());
         assertEquals(userDTO.getPassword(), user.getPassword());
@@ -67,12 +73,15 @@ public class UserMapperTest {
 
     @Test
     void mapBaseEntityToShortDtoTest() {
+        //given
         User user = new User();
         user.setUsername("Dan Bilzerian");
         user.setEnabled(true);
 
+        //when
         UserShortDTO userShortDTO = userMapper.mapEntityToShortDto(user);
 
+        //then
         assertNotNull(userShortDTO);
         assertEquals(user.getUsername(), userShortDTO.getUsername());
         assertEquals(user.getEnabled(), userShortDTO.getEnabled());
@@ -80,12 +89,15 @@ public class UserMapperTest {
 
     @Test
     void mapShortDtoToBaseEntityTest() {
+        //given
         UserShortDTO userShortDTO = new UserShortDTO();
         userShortDTO.setUsername("Yoandy Villarutia");
         userShortDTO.setEnabled(false);
 
+        //when
         User user = userMapper.mapShortDtoToEntity(userShortDTO);
 
+        //then
         assertNotNull(user);
         assertEquals(userShortDTO.getUsername(), user.getUsername());
         assertEquals(userShortDTO.getEnabled(), user.getEnabled());
@@ -93,12 +105,15 @@ public class UserMapperTest {
 
     @Test
     void mapBaseEntityToUpdateDtoTest() {
+        //given
         User user = new User();
         user.setUsername("JROC");
         user.setPassword("Lit Password");
 
+        //when
         UserUpdateDTO userUpdateDTO = userMapper.mapEntityToUpdateDto(user);
 
+        //then
         assertNotNull(userUpdateDTO);
         assertEquals(user.getUsername(), userUpdateDTO.getUsername());
         assertEquals(user.getPassword(), userUpdateDTO.getPassword());
@@ -106,12 +121,15 @@ public class UserMapperTest {
 
     @Test
     void mapUpdateDtoToBaseEntityTest() {
+        //given
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
         userUpdateDTO.setUsername("Clark Kent");
         userUpdateDTO.setPassword("Im batman");
 
+        //when
         User user = userMapper.mapUpdateDtoToEntity(userUpdateDTO);
 
+        //then
         assertNotNull(user);
         assertEquals(userUpdateDTO.getUsername(), user.getUsername());
         assertEquals(userUpdateDTO.getPassword(), user.getPassword());
@@ -165,13 +183,5 @@ public class UserMapperTest {
 
     private List<JobShortDTO> jobsToShortJobDtos(List<Job> jobs) {
         return jobs.stream().map(jobMapper::mapEntityToShortDto).collect(Collectors.toList());
-    }
-
-    private Timestamp localDateTimeToTimestamp(LocalDateTime localDateTime) {
-        return Timestamp.valueOf(localDateTime);
-    }
-
-    private LocalDateTime timestampToLocalDateTime(Timestamp timestamp) {
-        return timestamp.toLocalDateTime();
     }
 }

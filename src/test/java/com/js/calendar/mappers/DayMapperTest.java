@@ -32,6 +32,7 @@ public class DayMapperTest {
 
     @Test
     void mapBaseEntityToDtoTest() {
+        //given
         Day day = new Day();
         day.setId(1L);
         day.setWorkday(true);
@@ -41,8 +42,10 @@ public class DayMapperTest {
         day.setLastModifiedDate(Timestamp.valueOf(LocalDateTime.now()));
         day.setJobs(mockJobs());
 
+        //when
         DayDTO dayDTO = dayMapper.mapEntityToDto(day);
 
+        //then
         assertNotNull(dayDTO);
         assertEquals(day.getId(), dayDTO.getId());
         assertEquals(day.getWorkday(), dayDTO.getWorkday());
@@ -55,6 +58,7 @@ public class DayMapperTest {
 
     @Test
     void mapDtoToBaseEntityEntityTest() {
+        //given
         DayDTO dayDto = new DayDTO();
         dayDto.setId(1L);
         dayDto.setWorkday(true);
@@ -63,8 +67,10 @@ public class DayMapperTest {
         dayDto.setLastModifiedDate(LocalDateTime.now());
         dayDto.setJobShortDTOS(mockJobShortDtos());
 
+        //when
         Day day = dayMapper.mapDtoToEntity(dayDto);
 
+        //then
         assertNotNull(day);
         assertEquals(dayDto.getId(), day.getId());
         assertEquals(dayDto.getWorkday(), day.getWorkday());
@@ -77,6 +83,7 @@ public class DayMapperTest {
 
     @Test
     void mapBaseEntityToShortDtoTest() {
+        //given
         Day day = new Day();
         day.setId(1L);
         day.setWorkday(true);
@@ -84,8 +91,10 @@ public class DayMapperTest {
         day.setHours(BigDecimal.valueOf(12L));
         day.setLastModifiedDate(Timestamp.valueOf(LocalDateTime.now()));
 
+        //when
         DayShortDTO dayShortDTO = dayMapper.mapEntityToShortDto(day);
 
+        //then
         assertNotNull(dayShortDTO);
         assertEquals(day.getId(), dayShortDTO.getId());
         assertEquals(day.getWorkday(), dayShortDTO.getWorkday());
@@ -96,6 +105,7 @@ public class DayMapperTest {
 
     @Test
     void mapShortDtoToBaseEntityTest() {
+        //given
         DayShortDTO dayShortDTO = new DayShortDTO();
         dayShortDTO.setId(1L);
         dayShortDTO.setWorkday(true);
@@ -103,8 +113,10 @@ public class DayMapperTest {
         dayShortDTO.setHours(BigDecimal.valueOf(12L));
         dayShortDTO.setLastModifiedDate(LocalDateTime.now());
 
+        //when
         Day day = dayMapper.mapShortDtoToEntity(dayShortDTO);
 
+        //then
         assertNotNull(day);
         assertEquals(dayShortDTO.getId(), day.getId());
         assertEquals(dayShortDTO.getWorkday(), day.getWorkday());
@@ -115,13 +127,16 @@ public class DayMapperTest {
 
     @Test
     void mapBaseEntityToUpdateDtoTest() {
+        //given
         Day day = new Day();
         day.setWorkday(true);
         day.setDayOfProject(LocalDate.of(2020, 1, 1));
         day.setHours(BigDecimal.valueOf(12L));
 
+        //when
         DayUpdateDTO dayUpdateDTO = dayMapper.mapEntityToUpdateDto(day);
 
+        //then
         assertNotNull(dayUpdateDTO);
         assertEquals(day.getWorkday(), dayUpdateDTO.getWorkday());
         assertEquals(day.getDayOfProject(), dayUpdateDTO.getDayOfProject());
@@ -130,13 +145,16 @@ public class DayMapperTest {
 
     @Test
     void mapUpdateDtoToBaseEntityTest() {
+        //given
         DayUpdateDTO dayUpdateDTO = new DayUpdateDTO();
         dayUpdateDTO.setWorkday(true);
         dayUpdateDTO.setDayOfProject(LocalDate.of(2020, 1, 1));
         dayUpdateDTO.setHours(BigDecimal.valueOf(12L));
 
+        //when
         Day day = dayMapper.mapUpdateDtoToEntity(dayUpdateDTO);
 
+        //then
         assertNotNull(day);
         assertEquals(dayUpdateDTO.getWorkday(), day.getWorkday());
         assertEquals(dayUpdateDTO.getDayOfProject(), day.getDayOfProject());

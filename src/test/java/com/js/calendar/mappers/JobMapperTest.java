@@ -37,6 +37,7 @@ public class JobMapperTest {
 
     @Test
     void mapBaseEntityToDtoTest() {
+        //given
         Job job = new Job();
         job.setId(1L);
         job.setName("Software Developer");
@@ -46,8 +47,10 @@ public class JobMapperTest {
         job.setUser(mockUser());
         job.setDays(mockDays());
 
+        //when
         JobDTO jobDTO = jobMapper.mapEntityToDto(job);
 
+        //then
         assertNotNull(jobDTO);
         assertEquals(job.getId(), jobDTO.getId());
         assertEquals(job.getName(), jobDTO.getName());
@@ -61,6 +64,7 @@ public class JobMapperTest {
 
     @Test
     void mapDtoToBaseEntityEntityTest() {
+        //given
         JobDTO jobDTO = new JobDTO();
         jobDTO.setId(1L);
         jobDTO.setName("Connecting microservices");
@@ -69,8 +73,10 @@ public class JobMapperTest {
         jobDTO.setUserShortDTO(mockShortUserDto());
         jobDTO.setDayShortDTOS(mockShortDayDto());
 
+        //when
         Job job = jobMapper.mapDtoToEntity(jobDTO);
 
+        //then
         assertNotNull(job);
         assertEquals(jobDTO.getId(), job.getId());
         assertEquals(jobDTO.getName(), job.getName());
@@ -84,14 +90,17 @@ public class JobMapperTest {
 
     @Test
     void mapBaseEntityToShortDtoTest() {
+        //given
         Job job = new Job();
         job.setId(1L);
         job.setName("Developing front-end in Angular");
         job.setHourlyState(BigDecimal.valueOf(88L));
         job.setLastModifiedDate(Timestamp.valueOf(LocalDateTime.now()));
 
+        //when
         JobShortDTO jobShortDTO = jobMapper.mapEntityToShortDto(job);
 
+        //then
         assertNotNull(jobShortDTO);
         assertEquals(job.getId(), jobShortDTO.getId());
         assertEquals(job.getName(), jobShortDTO.getName());
@@ -101,14 +110,17 @@ public class JobMapperTest {
 
     @Test
     void mapShortDtoToBaseEntityTest() {
+        //given
         JobShortDTO jobShortDTO = new JobShortDTO();
         jobShortDTO.setId(1L);
         jobShortDTO.setName("Developing Tests");
         jobShortDTO.setHourlyState(BigDecimal.valueOf(420L));
         jobShortDTO.setLastModifiedDate(LocalDateTime.now());
 
+        //when
         Job job = jobMapper.mapShortDtoToEntity(jobShortDTO);
 
+        //then
         assertNotNull(job);
         assertEquals(jobShortDTO.getId(), job.getId());
         assertEquals(jobShortDTO.getName(), job.getName());
@@ -118,12 +130,15 @@ public class JobMapperTest {
 
     @Test
     void mapBaseEntityToUpdateDtoTest() {
+        //given
         Job job = new Job();
         job.setName("true");
         job.setHourlyState(BigDecimal.valueOf(100L));
 
+        //when
         JobUpdateDTO jobUpdateDTO = jobMapper.mapEntityToUpdateDto(job);
 
+        //then
         assertNotNull(jobUpdateDTO);
         assertEquals(job.getName(), jobUpdateDTO.getName());
         assertEquals(job.getHourlyState(), jobUpdateDTO.getHourlyState());
@@ -131,12 +146,15 @@ public class JobMapperTest {
 
     @Test
     void mapUpdateDtoToBaseEntityTest() {
+        //given
         JobUpdateDTO jobUpdateDTO = new JobUpdateDTO();
         jobUpdateDTO.setName("Webscraping with Selenium");
         jobUpdateDTO.setHourlyState(BigDecimal.valueOf(3333L));
 
+        //when
         Job job = jobMapper.mapUpdateDtoToEntity(jobUpdateDTO);
 
+        //then
         assertNotNull(job);
         assertEquals(jobUpdateDTO.getName(), job.getName());
         assertEquals(jobUpdateDTO.getHourlyState(), job.getHourlyState());
