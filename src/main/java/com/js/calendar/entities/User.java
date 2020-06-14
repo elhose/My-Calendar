@@ -19,7 +19,7 @@ public class User extends BaseEntity{
     private String password;
 
     @Column(nullable = false)
-    private Boolean enabled = true; //default value set to true
+    private Boolean enabled = true;
 
     @CreationTimestamp
     @Column(name = "created_date", updatable = false)
