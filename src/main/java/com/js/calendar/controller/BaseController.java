@@ -34,7 +34,7 @@ public abstract class BaseController<T extends BaseDTO, S extends ShortDTO, U ex
         if (entities.iterator().hasNext()) {
             entities.forEach(entity -> dtos.add(mapper.mapEntityToDto(entity)));
         } else {
-            throw new NoEntityException("No such entities in DataBase");
+            throw new NoEntityException();
         }
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
@@ -46,7 +46,7 @@ public abstract class BaseController<T extends BaseDTO, S extends ShortDTO, U ex
             T baseDTO = mapper.mapEntityToDto(entity.get());
             return new ResponseEntity<>(baseDTO, HttpStatus.OK);
         } else {
-            throw new NoEntityException("No such entity with ID: " + id + " in DataBase");
+            throw new NoEntityException(id);
         }
     }
 
@@ -64,7 +64,7 @@ public abstract class BaseController<T extends BaseDTO, S extends ShortDTO, U ex
             service.updateEntity(id, entity);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
-            throw new NoEntityException("No such entity with ID: " + id + " in DataBase");
+            throw new NoEntityException(id);
         }
     }
 
@@ -74,7 +74,7 @@ public abstract class BaseController<T extends BaseDTO, S extends ShortDTO, U ex
             service.deleteEntity(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EmptyResultDataAccessException e) {
-            throw new NoEntityException("No such entity with ID: " + id + " in DataBase");
+            throw new NoEntityException(id);
         }
     }
 }
